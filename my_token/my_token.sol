@@ -49,18 +49,22 @@ contract MyToken is Owned, ERC20Interface{
     function transfer(address _to, uint256 _amount)
         public
         onlyOwner
-        returns (bool result)
+        returns (bool)
     {
-        result = _transferFrom(owner, _to, _amount); // FIXME:
-        if (result)
-            emit Transfer(owner, _to, _amount);
+        return _transferFrom(owner, _to, _amount);
     }
 
     function transferFrom(address _from, address _to, uint256 _amount)
         public
-        returns(bool)
+        returns(bool result)
     {
-        return _transferFrom(_from, _to, _amount);
+        if (hasEnoughAllowance(_from, msg.sender, _amount)) {
+            result = _transferFrom(_from, _to, _amount);
+            if (result)
+                allowance[_from][msg.sender] -= _amount;
+        } else {
+            result = false;
+        }
     }
 
     function approve(address _spender, uint256 _amount)
@@ -91,11 +95,9 @@ contract MyToken is Owned, ERC20Interface{
         shouldBePositive(_amount)
         returns (bool)
     {
-        if (!hasEnoughToTransfer(_from, _amount) ||
-            !hasEnoughAllowance(_from, _to, _amount))
+        if (!hasEnoughToTransfer(_from, _amount))
             return false;
 
-        allowance[_from][_to] -= _amount;
         balanceOf[_to] += _amount;
         balanceOf[_from] -= _amount;
 
