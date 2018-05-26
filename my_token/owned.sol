@@ -5,7 +5,7 @@ contract Owned {
     constructor() internal { owner = msg.sender; }
 
     modifier onlyOwner() {
-        require(msg.sender == owner, 'only owner can execute this');
+        require(msg.sender == owner, "only owner can execute this");
         _;
     }
 }

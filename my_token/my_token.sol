@@ -1,7 +1,7 @@
 pragma solidity ^0.4.23;
 
-import './erc20interface.sol';
-import './owned.sol';
+import "./erc20interface.sol";
+import "./owned.sol";
 
 contract MyToken is Owned, ERC20Interface{
     string public symbol = "MT";
@@ -21,17 +21,17 @@ contract MyToken is Owned, ERC20Interface{
     );
 
     modifier exceptMyself(address _to) {
-        require(msg.sender != _to, 'you cannot use this function for yourself');
+        require(msg.sender != _to, "you cannot use this function for yourself");
         _;
     }
 
     modifier preventTransferToNull(address _to) {
-        require(_to != 0x0, 'address is require');
+        require(_to != 0x0, "address is require");
         _;
     }
 
     modifier shouldBePositive(uint256 _amount) {
-        require(_amount > 0, 'you must provide greater than 0 tokens');
+        require(_amount > 0, "you must provide greater than 0 tokens");
         _;
     }
 
@@ -101,7 +101,7 @@ contract MyToken is Owned, ERC20Interface{
         balanceOf[_to] += _amount;
         balanceOf[_from] -= _amount;
 
-        emit Transfer(_from ,_to, _amount);
+        emit Transfer(_from, _to, _amount);
         return true;
     }
 
