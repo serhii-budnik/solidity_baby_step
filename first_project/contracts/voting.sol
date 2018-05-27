@@ -6,6 +6,8 @@ import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 contract Voting is Ownable, SimpleVerifier {
     // but maybe better include calculation of votes
     // uint256 private votesCount;
+
+    uint256 public id;
     uint256 public maxVotes;
     bool public votingCompleted;
     
@@ -15,15 +17,17 @@ contract Voting is Ownable, SimpleVerifier {
     }
 
     struct Voter {
-        uint weight; // for some future
+        uint256 weight; // for some feature
         bool voted;
-        uint proposalID;
+        uint256 proposalID;
+        uint256 votingID;
     }
     
-    mapping(address => Voter) private voters;    
+    mapping(address => Voter) private voters;
     Proposal[] public proposals;
 
     constructor(uint256 _maxVotes) public {
+        id = 1;
         maxVotes = _maxVotes;
     }
 
@@ -38,7 +42,10 @@ contract Voting is Ownable, SimpleVerifier {
     }
 
     modifier isVoted(address _voter) {
-        require(!voters[_voter].voted, "the voter already voted");
+        require(
+            !voters[_voter].voted || voters[_voter].votingID != id,
+            "the voter already voted"
+        );
         _;
     }
 
@@ -69,13 +76,20 @@ contract Voting is Ownable, SimpleVerifier {
         isVoted(_voter)
         returns(bool)
     {
-        require(voters[_voter].weight == 0, "something went wrong");
-        voters[_voter].weight = 1;
+        Voter storage voter = voters[_voter];
+
+        require(voter.votingID != id, "you already have rights");
+
+        voter.weight = 1;
+        voter.votingID = id;
+        if (voter.voted)
+            voter.voted = false;
         return true;
     }
 
     function vote(uint256 _proposalID) public isHeld isVoted(msg.sender) {
         Voter storage sender = voters[msg.sender];
+        require(id == sender.votingID, "you have no right in this voting");
 
         sender.voted = true;    
         sender.proposalID = _proposalID;
@@ -108,5 +122,12 @@ contract Voting is Ownable, SimpleVerifier {
     function getWinner() public view returns(string, uint256) {
         uint256 proposalID = winningProposal();
         return (proposals[proposalID].name, proposals[proposalID].voteCount);
+    }
+
+    function nextVoting(uint256 _maxVotes) public onlyOwner isCompleted { 
+        id++;
+        delete(proposals);
+        maxVotes = _maxVotes;
+        votingCompleted = false;
     }
 }
