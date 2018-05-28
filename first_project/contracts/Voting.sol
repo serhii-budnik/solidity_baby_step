@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
 
-import "./simple_verifier.sol";
+import "./SimpleVerifier.sol";
 import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract Voting is Ownable, SimpleVerifier {
