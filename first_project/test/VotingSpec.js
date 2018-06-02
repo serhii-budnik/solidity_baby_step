@@ -1,3 +1,14 @@
+// import Reverter from './scripts/reverter.js';
+import expectThrow from '../node_modules/openzeppelin-solidity/test/helpers/expectThrow.js';
+
+// beforeEach(function () {
+//   Reverter.snapshot();
+// });
+
+// afterEach(function () {
+//   Reverter.revert();
+// });
+
 var Voting = artifacts.require("Voting");
 
 contract('Voting', function(accounts) {
