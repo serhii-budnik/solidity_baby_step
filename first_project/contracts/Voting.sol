@@ -10,7 +10,7 @@ contract Voting is Ownable, SimpleVerifier {
     uint256 public id;
     uint256 public maxVotes;
     bool public votingCompleted;
-    
+
     struct Proposal {
         string name;
         uint256 voteCount;
@@ -22,7 +22,7 @@ contract Voting is Ownable, SimpleVerifier {
         uint256 proposalID;
         uint256 votingID;
     }
-    
+
     mapping(address => Voter) private voters;
     Proposal[] public proposals;
 
@@ -58,7 +58,7 @@ contract Voting is Ownable, SimpleVerifier {
         require(votingCompleted, "voting do not finished yet");
         _;
     }
-    
+
     function addProposal(string _name)
         public
         onlyOwner
@@ -70,7 +70,7 @@ contract Voting is Ownable, SimpleVerifier {
     }
 
     function giveRightToVote(address _voter)
-        public 
+        public
         onlyOwner
         isHeld
         isVoted(_voter)
@@ -91,7 +91,7 @@ contract Voting is Ownable, SimpleVerifier {
         Voter storage sender = voters[msg.sender];
         require(id == sender.votingID, "you have no right in this voting");
 
-        sender.voted = true;    
+        sender.voted = true;
         sender.proposalID = _proposalID;
 
         proposals[_proposalID].voteCount += sender.weight;
@@ -109,7 +109,7 @@ contract Voting is Ownable, SimpleVerifier {
 
         for(uint256 i = 0; i < proposals.length; i++) {
             // this way will be cheaper for honest voting
-            totalVotes += proposals[i].voteCount; 
+            totalVotes += proposals[i].voteCount;
 
             if (proposals[i].voteCount > winningVoteCount) {
                 winningVoteCount = proposals[i].voteCount;
@@ -124,7 +124,7 @@ contract Voting is Ownable, SimpleVerifier {
         return (proposals[proposalID].name, proposals[proposalID].voteCount);
     }
 
-    function nextVoting(uint256 _maxVotes) public onlyOwner isCompleted { 
+    function nextVoting(uint256 _maxVotes) public onlyOwner isCompleted {
         id++;
         delete(proposals);
         maxVotes = _maxVotes;

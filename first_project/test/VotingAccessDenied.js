@@ -22,7 +22,7 @@ const expectThrow = async promise => {
     
   
   
-// import expectThrow from '../node_modules/openzeppelin-solidity/test/helpers/expectThrow.js';
+// import { expectThrow } from '../node_modules/openzeppelin-solidity/test/helpers/expectThrow.js';
 // const expectThrow = require("../node_modules/openzeppelin-solidity/test/helpers/expectThrow.js");
 
 var Voting = artifacts.require("Voting");
@@ -58,11 +58,14 @@ contract('Voting', function(accounts) {
 
       describe('when voter already voted', function(){
         it('should raise exception', async() => {
-          let instance = await Voting.deployed();
-          let owner = await instance.owner();
-          console.log(owner);
-          console.log(accounts[0]);
-          await instance.giveRightToVote(accounts[1], { from: accounts[0] });
+          var instance = await Voting.deployed();
+          // let owner = await instance.owner();
+  
+          let bool = await instance.votingCompleted();
+          await console.log("Bool", bool);
+
+          await instance.giveRightToVote(accounts[0], { from: accounts[0] });
+
           // await instance.addProposal("First Proposal");
           // await instance.vote(0, { from: accounts[0] });
           // await expectThrow(instance.vote(0, { from: accounts[0] }));
@@ -77,6 +80,16 @@ contract('Voting', function(accounts) {
           await expectThrow(instance.vote(0));
         });
       });
+
+      // describe('when you have permission but voting already finished', function(){
+        // it('should raise exception', async() => {
+          // let instance = await Voting.deployed();
+          // await instance.giveRightToVote(accounts[0], { from: accounts[0] });
+          // await instance.addProposal("First Proposal");
+          // await instance.completeVoting();
+          // await expectThrow(instance.vote(0));
+        // });
+      // });
     });
   });
 });
