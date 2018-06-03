@@ -98,7 +98,8 @@ contract Voting is Ownable, SimpleVerifier {
     }
 
     function completeVoting() public onlyOwner {
-        votingCompleted = true;
+        if (!votingCompleted)
+            votingCompleted = true;
     }
 
     function winningProposal() public isCompleted view returns(uint256 _proposalID) {

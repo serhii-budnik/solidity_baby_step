@@ -1,13 +1,4 @@
-// import Reverter from './scripts/reverter.js';
-import expectThrow from '../node_modules/openzeppelin-solidity/test/helpers/expectThrow.js';
-
-// beforeEach(function () {
-//   Reverter.snapshot();
-// });
-
-// afterEach(function () {
-//   Reverter.revert();
-// });
+import testHelper from '../testHelper.js';
 
 var Voting = artifacts.require("Voting");
 
@@ -16,7 +7,6 @@ contract('Voting', function(accounts) {
     return Voting.deployed().then(function(instance){
       return instance.maxVotes(); //.call(accounts[0]);
     }).then(function(maxVotes){
-      console.log("maxVotes: ", maxVotes);
       assert.equal(maxVotes, 2, "2 wasn't in the contract");
     });
   });
@@ -32,10 +22,11 @@ contract('Voting', function(accounts) {
 
   it('should add proposal to array proposals', function() {
     return Voting.deployed().then(function(instance) {
-      votingInst = instance;
-      return instance.addProposal("Serhii");//.call(accounts[0]);
-    }).then(function() {
-      return votingInst.proposals(0);
+      var votingInst = instance;
+      instance.addProposal("Serhii");//.call(accounts[0]);
+      return votingInst;
+    }).then(function(instance) {
+      return instance.proposals(0);
     }).then(function(proposal) {
       // Here get first element from array Struct(name, voteCount);
       assert.equal(proposal[0], 'Serhii', 'Name is not a Serhii');
