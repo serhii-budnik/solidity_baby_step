@@ -10,6 +10,11 @@ module.exports = {
             port: 9545,
             network_id: "*", // Match any network id
             build: "webpack"
-        }
+        },
+        ganache: {
+            host: 'localhost',
+            port: 7545,
+            network_id: '*'
+        },
     }
 };

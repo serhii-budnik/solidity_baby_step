@@ -1,0 +1,27 @@
+{
+  "contracts": {
+    "MyContract": {
+      "address": "0x2ab8d6751e864f0f004bae024eb0dd4f5bc86c2f",
+      "bytecodeHash": "51c9bb94e5b248deb441d9cdf13ace8fede928a0136d46171d17f5b7f5275654"
+    }
+  },
+  "proxies": {
+    "MyContract": [
+      {
+        "address": "0x22cf551bbb4cc87619d4743590160d54278d387a",
+        "version": "0.1.0",
+        "implementation": "0x2ab8d6751e864f0f004bae024eb0dd4f5bc86c2f"
+      }
+    ]
+  },
+  "app": {
+    "address": "0xe97382e8a8001f6b8567d9c99a1df95a2c383a48"
+  },
+  "version": "0.1.0",
+  "package": {
+    "address": "0x002373431bd5e831f45ffaf2bbedfcefeb7bbdca"
+  },
+  "provider": {
+    "address": "0xf4c6ad36fd0aa262b068a6e80365e0ba7e2450d9"
+  }
+}

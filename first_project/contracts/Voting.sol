@@ -23,7 +23,9 @@ contract Voting is Ownable, SimpleVerifier {
         uint256 votingID;
     }
 
-    mapping(address => Voter) private voters;
+    event NewVoting(uint256 id, uint256 maxVotes);
+
+    mapping(address => Voter) public voters;
     Proposal[] public proposals;
 
     constructor(uint256 _maxVotes) public {
@@ -130,5 +132,11 @@ contract Voting is Ownable, SimpleVerifier {
         delete(proposals);
         maxVotes = _maxVotes;
         votingCompleted = false;
+
+        emit NewVoting(id, maxVotes);
+    }
+
+    function proposalsLength() public view returns(uint256) {
+        return proposals.length;
     }
 }

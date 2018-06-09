@@ -1,4 +1,7 @@
-.vscode
+.vscode/
 
-build
-node_modules
+build/
+node_modules/
+bower_components/
+
+truffle.js.my

@@ -1,5 +1,7 @@
 import testHelper from "../testHelper.js";
 import expectThrow from "../../node_modules/openzeppelin-solidity/test/helpers/expectThrow.js";
+import asserts from '../helpers/asserts.js';
+
 
 var Voting = artifacts.require("Voting");
 

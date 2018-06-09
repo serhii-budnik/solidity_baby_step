@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <script scr="../node_modules/web3/dist/web3.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1> Test Header </h1>
+
+        <h2></h2>
+
+        <div>
+            <p>max Votes:</p>
+            <p id="labelMaxVotes"> </p>
+        </div>
+
+        </br>
+        <label for="maxVotes" class="col-lg-2 control-label">max votes</label>
+        <input id="maxVotes" type="test">
+
+        <!-- <label for="name" class="col-lg-2 control-label">Age</label>
+        <input id="age" type="test"> -->
+
+        <button id="button" onclick="nextVoting()" > Update</button>
+
+
+
+
+
+        <!-- <button id="button" onclick="finishVoting()" > finish voting</button> -->
+
+
+
+    </div>
+
+    <!--  npm install ethereum/web3.js -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+        function button(){
+            console.log(Voting.maxVotes());
+        }
+
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+        }
+        var Voting = web3.eth.contract(
+                [
+            {
+            "constant": true,
+            "inputs": [
+                {
+                "name": "",
+                "type": "uint256"
+                }
+            ],
+            "name": "proposals",
+            "outputs": [
+                {
+                "name": "name",
+                "type": "string"
+                },
+                {
+                "name": "voteCount",
+                "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+            },
+            {
+            "constant": true,
+            "inputs": [],
+            "name": "votingCompleted",
+            "outputs": [
+                {
+                "name": "",
+                "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+            },
+            {
+            "constant": true,
+            "inputs": [],
+            "name": "maxVotes",
+            "outputs": [
+                {
+                "name": "",
+                "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+            },
+            {
+            "constant": true,
+            "inputs": [],
+            "name": "owner",
+            "outputs": [
+                {
+                "name": "",
+                "type": "address"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+            },
+            {
+            "constant": true,
+            "inputs": [
+                {
+                "name": "",
+                "type": "address"
+                }
+            ],
+            "name": "voters",
+            "outputs": [
+                {
+                "name": "weight",
+                "type": "uint256"
+                },
+                {
+                "name": "voted",
+                "type": "bool"
+                },
+                {
+                "name": "proposalID",
+                "type": "uint256"
+                },
+                {
+                "name": "votingID",
+                "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+            },
+            {
+            "constant": true,
+            "inputs": [],
+            "name": "id",
+            "outputs": [
+                {
+                "name": "",
+                "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+            },
+            {
+            "constant": false,
+            "inputs": [
+                {
+                "name": "newOwner",
+                "type": "address"
+                }
+            ],
+            "name": "transferOwnership",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+            },
+            {
+            "inputs": [
+                {
+                "name": "_maxVotes",
+                "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+            },
+            {
+            "anonymous": false,
+            "inputs": [
+                {
+                "indexed": true,
+                "name": "previousOwner",
+                "type": "address"
+                },
+                {
+                "indexed": true,
+                "name": "newOwner",
+                "type": "address"
+                }
+            ],
+            "name": "OwnershipTransferred",
+            "type": "event"
+            },
+            {
+            "constant": false,
+            "inputs": [
+                {
+                "name": "_name",
+                "type": "string"
+                }
+            ],
+            "name": "addProposal",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+            },
+            {
+            "constant": false,
+            "inputs": [
+                {
+                "name": "_voter",
+                "type": "address"
+                }
+            ],
+            "name": "giveRightToVote",
+            "outputs": [
+                {
+                "name": "",
+                "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+            },
+            {
+            "constant": false,
+            "inputs": [
+                {
+                "name": "_proposalID",
+                "type": "uint256"
+                }
+            ],
+            "name": "vote",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+            },
+            {
+            "constant": false,
+            "inputs": [],
+            "name": "completeVoting",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+            },
+            {
+            "constant": true,
+            "inputs": [],
+            "name": "winningProposal",
+            "outputs": [
+                {
+                "name": "_proposalID",
+                "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+            },
+            {
+            "constant": true,
+            "inputs": [],
+            "name": "getWinner",
+            "outputs": [
+                {
+                "name": "",
+                "type": "string"
+                },
+                {
+                "name": "",
+                "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+            },
+            {
+            "constant": false,
+            "inputs": [
+                {
+                "name": "_maxVotes",
+                "type": "uint256"
+                }
+            ],
+            "name": "nextVoting",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+            },
+            {
+            "constant": true,
+            "inputs": [],
+            "name": "proposalsLength",
+            "outputs": [
+                {
+                "name": "",
+                "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+            }
+        ]
+        ).at("0x61bb490a4c7919b7ff677757c1f76e98ba4600be")
+
+
+
+        // web3.eth.defaultAccount = web3.eth.accounts[0];
+
+        // console.log("before contract ABI");
+        // // contract ABI
+        // var VotingContract = web3.eth.contract();
+
+        // var Voting = VotingContract.at('');
+
+        // ***************************************
+        $(document).ready(function() {
+            console.log("on load");
+            // console.log(Voting.maxVotes());
+        });
+        $(function() {
+            /* code here */
+            Voting.maxVotes.call(function(error, result){
+                if(!error) {
+                    console.log(JSON.stringify(result));
+                    $('#labelMaxVotes').text(result);
+                } else
+                    console.error(error);
+            });
+            console.log("function votingCompleted");
+
+            Voting.votingCompleted.call(function(error, result){
+                if(!error) {
+                    console.log(JSON.stringify(result));
+                } else
+                    console.error(error);
+            });
+        });
+
+        function finishVoting() {
+            Voting.completeVoting(function(error, result){
+                if(!error) {
+                    console.log(JSON.stringify(result));
+                } else
+                    console.error(error);
+            });
+        };
+
+        function nextVoting() {
+
+
+            var maxVotes = document.getElementById("maxVotes").value
+            Voting.nextVoting(maxVotes, function(error, result){
+                if(!error) {
+                    console.log(JSON.stringify(result));
+                    $('#labelMaxVotes').text(result);
+                } else
+                    console.error(error);
+            });
+        };
+        // **************************************
+
+        // var Web3 = require('web3');
+        // // out future code here
+        // if (typeof web3 !== 'undefined') {
+        //     web3 = new Web3(web3.currentProvider);
+        // } else {
+        //     web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+        // }
+
+        // web3.eth.defaultAccount = web3.eth.accounts[0];
+
+        // console.log("before contract ABI");
+        // // contract ABI
+        // var VotingContract = web3.eth.contract();
+
+        // var Voting = VotingContract.at("");
+        // console.log(Voting);
+    </script>
+</body>
+</html>
