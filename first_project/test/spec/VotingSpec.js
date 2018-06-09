@@ -1,5 +1,5 @@
 import testHelper from '../testHelper.js';
-import Asserts from '../helpers/asserts.js'; // TODO: investigate this
+import Asserts from '../helpers/asserts.js';
 
 var Voting = artifacts.require("Voting");
 
@@ -50,7 +50,7 @@ contract('Voting', async (accounts) => {
         await assert.equal(ownerVoter[3], 0);     // votingID
 
         let outcome = await instance.giveRightToVote(accounts[0]);
-        // await asserts(outcome); // TODO: investigate this
+        // await asserts(outcome);
         ownerVoter = await instance.voters.call(owner);
 
         await assert.equal(ownerVoter[0], 1);     // weight
@@ -76,7 +76,7 @@ contract('Voting', async (accounts) => {
 
         // let outcome = await instance.giveRightToVote(accounts[0]);
         asserts.doesNotThrow(instance.giveRightToVote(accounts[0]));
-        // await asserts(outcome); TODO: investigate this
+        // await asserts(outcome);
 
         ownerVoter = await instance.voters.call(owner);
 
