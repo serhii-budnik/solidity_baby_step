@@ -4,7 +4,7 @@ pragma solidity >=0.4.22 < 0.6.0;
 contract Test {
 
     string public contractOwner;
-    address public addressOwner;
+    address payable public addressOwner;
 
     constructor(string memory _contractOwner) public {
         contractOwner = _contractOwner;
@@ -19,8 +19,16 @@ contract Test {
         _to.transfer(msg.value);
     }
 
+    function sum() public pure returns(int256){
+        (int256 a, int256 b) = multipleValues();
+        return a + b;
+    }
 
-    function(){
+    function multipleValues() public pure returns(int256, int256) {
+        return (1, 2);
+    }
 
+    function() external payable {
+        addressOwner.transfer(msg.value);
     }
 }
