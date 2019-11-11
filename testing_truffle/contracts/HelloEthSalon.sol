@@ -7,12 +7,11 @@ contract HelloEthSalon {
     uint public intt = 765;
     address public lastMsgSender;
 
-
     constructor(string _str) public {
         str = _str;
     }
 
-    function getStr() public view returns(string) { 
+    function getStr() public view returns(string) {
         return str;
     }
 
