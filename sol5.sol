@@ -27,8 +27,12 @@ contract Test {
     function multipleValues() public pure returns(int256, int256) {
         return (1, 2);
     }
-
-    function() external payable {
-        addressOwner.transfer(msg.value);
+    
+    function getContractAddress() public view returns(address){
+        return address(this);
+    }
+    
+    function getContractEthers() public view returns(uint256){
+        return address(this).balance;
     }
 }
